@@ -21,11 +21,11 @@ Plugin.create(:vlc_nowplaying) do
           role: :timeline) do |hoge|
     # start point
     uri = "#{UserConfig[:host]}#{(UserConfig[:host]=~/\/$/)?'':'/'}requests/playlist.xml"
+    title = ""
     begin
       f = open(uri, {:http_basic_authentication => ['', UserConfig[:password]]})
       raw = f.read
       doc = REXML::Document.new(raw)
-      title = ""
       doc.elements.each("node/node/leaf[@current='current']") do |elem|
         title = elem.attributes["name"]
       end
