@@ -9,7 +9,7 @@
   1. インターフェイス > メインインターフェイス > Lua のとこで，Lua HTTP のとこに Password をいれる
   (くわしくは [公式ドキュメント](https://wiki.videolan.org/Documentation:Modules/http_intf/)を見よう)
 1. この repo を ~/.mikutter/plugin/ 以下に clone します:
-    cd ~/.mikutter/plugin ; git clone https://github.com/polamjag/vlc_nowplaying_mikutter.git
+    `cd ~/.mikutter/plugin ; git clone https://github.com/polamjag/vlc_nowplaying_mikutter.git`
 1. mikutter の設定画面で，VLC nowplaying > Basic auth password にさっき設定したやつを入力
 
 ## 何かあったら
