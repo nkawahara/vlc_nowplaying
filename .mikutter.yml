@@ -1,0 +1,11 @@
+---
+slug: vlc_nowplaying
+depends:
+  mikutter: "3.0.0.alpha4"
+  plugin:
+  - gtk
+version: "1.0"
+author: "polamjag"
+name: "VLC #nowplaying"
+description: "VLC で再生中の曲名を #nowplaying で投稿"
+
