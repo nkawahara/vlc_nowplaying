@@ -26,6 +26,7 @@ Plugin.create(:vlc_nowplaying) do
     title = ""
     artist = ""
     album = ""
+    art_work = ""
     begin
       f = open(uri, {:http_basic_authentication => ['', UserConfig[:password]]})
       raw = f.read
@@ -37,18 +38,27 @@ Plugin.create(:vlc_nowplaying) do
         album = doc.elements["//root/information/category/info[@name='album']"].text
         post_data = title + ", " + album + ", " + artist + ", #now_playing #mikutter "
       rescue => exp
-        if title == "" then
-          post_data=doc.elements["//root/information/category/info[@name='filename']"].text
-		    end
+      		if title == "" then
+      			post_data=doc.elements["//root/information/category/info[@name='filename']"].text + ", #now_playing #mikutter "
+		      end
+	    end
+      begin
+		    art_work = URI.unescape(doc.elements["//root/information/category/info[@name='artwork_url']"].text).slice!(8..-1)
+      rescue => exp
+		    art_work = ""
 	    end
       #Plugin.call(:update, nil, [Message.new(:message => raw_data, :system => true)])  
       #Plugin.call(:update, nil, [Message.new(:message => post_data, :system => true)])  
+      #Plugin.call(:update, nil, [Message.new(:message => art_work, :system => true)])  
     rescue => exp
       Plugin.call(:update, nil, [Message.new(:message => raw_data, :system => true)])  
       logger "VLC nowplaying error: \"#{exp.message}\" -- Please check vlc status or plugin settings"
     end
-    if post_data != "" then
-      Service.primary.update(:message => post_data)
+    if art_work != "" then
+      Service.primary.update(message: post_data,
+        mediaiolist: [open(art_work)])
+    else
+	      Service.primary.update(message: post_data)
     end
   end
   settings "VLC #nowplaying" do
